@@ -32,7 +32,6 @@ export type Sermon = { title: string; speaker: string; date: string; series: str
 export type Ministry = { name: string; audience: string[]; when: string; icon: string; colour: string; tint: string; desc: string; sample?: boolean };
 export type Belief = { n: number; cat: string; title: string; ref: string; text: string };
 export type Verse = { text: string; ref: string };
-export type PrayerNote = { text: string; name: string; when: string; count: number; praise?: boolean };
 
 export const SITE = {
   church: {
@@ -87,15 +86,15 @@ export const SITE = {
   },
 
   sermons: [
-    { title: "Rest for the restless", speaker: "Pastor Fredrick Nti-Mensah", date: "2026-10-17", series: "Sabbath: a gift in time", text: "Matthew 11:28-30", length: "38 min" },
-    { title: "Made for us", speaker: "Guest speaker", date: "2026-10-10", series: "Sabbath: a gift in time", text: "Mark 2:23-28", length: "34 min" },
-    { title: "Remember", speaker: "Pastor Fredrick Nti-Mensah", date: "2026-10-03", series: "Sabbath: a gift in time", text: "Exodus 20:8-11", length: "41 min" },
-    { title: "The God who sees", speaker: "Pastor Fredrick Nti-Mensah", date: "2026-09-26", series: "Unexpected people", text: "Genesis 16:7-13", length: "36 min" },
-    { title: "Living water", speaker: "Guest speaker", date: "2026-09-19", series: "Unexpected people", text: "John 4:1-26", length: "39 min" },
-    { title: "Hope that holds", speaker: "Pastor Fredrick Nti-Mensah", date: "2026-09-12", series: "Blessed hope", text: "Titus 2:11-14", length: "35 min" },
-    { title: "Ready, not anxious", speaker: "Youth ministry", date: "2026-09-05", series: "Blessed hope", text: "Matthew 25:1-13", length: "29 min" },
-    { title: "Whole-person health", speaker: "Health ministries", date: "2026-08-29", series: "Health and wholeness", text: "3 John 1:2", length: "33 min" },
-    { title: "Bread for the journey", speaker: "Pastor Fredrick Nti-Mensah", date: "2026-08-22", series: "Health and wholeness", text: "1 Kings 19:1-8", length: "37 min" }
+    { title: "Rest for the restless", speaker: "Example speaker", date: "2026-10-17", series: "Sabbath: a gift in time", text: "Matthew 11:28-30", length: "38 min" },
+    { title: "Made for us", speaker: "Example speaker", date: "2026-10-10", series: "Sabbath: a gift in time", text: "Mark 2:23-28", length: "34 min" },
+    { title: "Remember", speaker: "Example speaker", date: "2026-10-03", series: "Sabbath: a gift in time", text: "Exodus 20:8-11", length: "41 min" },
+    { title: "The God who sees", speaker: "Example speaker", date: "2026-09-26", series: "Unexpected people", text: "Genesis 16:7-13", length: "36 min" },
+    { title: "Living water", speaker: "Example speaker", date: "2026-09-19", series: "Unexpected people", text: "John 4:1-26", length: "39 min" },
+    { title: "Hope that holds", speaker: "Example speaker", date: "2026-09-12", series: "Blessed hope", text: "Titus 2:11-14", length: "35 min" },
+    { title: "Ready, not anxious", speaker: "Example speaker", date: "2026-09-05", series: "Blessed hope", text: "Matthew 25:1-13", length: "29 min" },
+    { title: "Whole-person health", speaker: "Example speaker", date: "2026-08-29", series: "Health and wholeness", text: "3 John 1:2", length: "33 min" },
+    { title: "Bread for the journey", speaker: "Example speaker", date: "2026-08-22", series: "Health and wholeness", text: "1 Kings 19:1-8", length: "37 min" }
   ],
 
   seriesColours: {
@@ -106,8 +105,8 @@ export const SITE = {
   },
 
   ministries: [
-    { name: "Sabbath School", audience: ["All ages"], when: "Saturdays, 10:00am", icon: "book-open", colour: "#1d5c96", tint: "#dceaf6", desc: "The heart of our Saturday morning. Small groups open the Bible together, with classes for every age from babies to adults." },
-    { name: "Children's ministries", audience: ["Children"], when: "During Sabbath School", icon: "baby", colour: "#d6831a", tint: "#fdebd0", desc: "Songs, stories and crafts that help children know Jesus as their friend. Safeguarding-trained leaders in every class." },
+    { name: "Sabbath School", audience: ["All ages"], when: "Saturdays, 10:00am", icon: "book-open", colour: "#1d5c96", tint: "#dceaf6", desc: "The heart of our Saturday morning. Small groups open the Bible together, with classes for different ages.", sample: true },
+    { name: "Children's ministries", audience: ["Children"], when: "During Sabbath School", icon: "baby", colour: "#d6831a", tint: "#fdebd0", desc: "Songs, stories and crafts that help children know Jesus as their friend.", sample: true },
     { name: "Adventurers", audience: ["Children"], when: "Alternate Sundays (to confirm)", icon: "compass", colour: "#2c7656", tint: "#dcefe4", desc: "A club for ages 4 to 9, building life skills, faith and friendships through badges, outings and family activities.", sample: true },
     { name: "Pathfinders", audience: ["Youth"], when: "Alternate Sundays (to confirm)", icon: "tent", colour: "#0d2644", tint: "#dceaf6", desc: "Camping, drill, first aid and honours for ages 10 to 15. Like scouting, with Jesus at the centre.", sample: true },
     { name: "Adventist Youth", audience: ["Youth"], when: "Saturday afternoons", icon: "flame", colour: "#b8475f", tint: "#f7e1e5", desc: "Young people leading worship, asking real questions and serving the community together.", sample: true },
@@ -116,7 +115,7 @@ export const SITE = {
     { name: "Women's ministries", audience: ["Adults"], when: "Monthly", icon: "flower-2", colour: "#b8475f", tint: "#f7e1e5", desc: "Encouragement, prayer breakfasts and mentoring for women at every stage of life.", sample: true },
     { name: "Men's ministries", audience: ["Adults"], when: "Monthly", icon: "users", colour: "#1d5c96", tint: "#dceaf6", desc: "Fellowship, Bible study and practical service. Breakfast usually involved.", sample: true },
     { name: "Music ministry", audience: ["All ages"], when: "Weekly rehearsals", icon: "music", colour: "#0d2644", tint: "#dceaf6", desc: "Choir, praise team and instrumentalists leading the church in worship. New voices always welcome.", sample: true },
-    { name: "Prayer ministry", audience: ["All ages"], when: "Wednesdays, 7:00pm", icon: "heart-handshake", colour: "#b8475f", tint: "#f7e1e5", desc: "A team that prays for every request we receive, in confidence, and meets midweek to pray together." },
+    { name: "Prayer ministry", audience: ["All ages"], when: "Wednesdays, 7:00pm", icon: "heart-handshake", colour: "#b8475f", tint: "#f7e1e5", desc: "A team that prays for every request we receive, in confidence, and meets midweek to pray together.", sample: true },
     { name: "Family ministries", audience: ["Adults", "Children"], when: "Termly events", icon: "house", colour: "#2c7656", tint: "#dcefe4", desc: "Parenting seminars, marriage enrichment and family days out that strengthen homes.", sample: true }
   ],
 
@@ -169,16 +168,7 @@ export const SITE = {
     { text: "Worship him that made heaven, and earth, and the sea, and the fountains of waters.", ref: "Revelation 14:7" }
   ],
 
-  sabbathVerse: { text: "And God blessed the seventh day, and sanctified it: because that in it he had rested from all his work.", ref: "Genesis 2:3" },
-
-  prayerWall: [
-    { text: "Please pray for my mum, who has surgery at Huddersfield Royal on Tuesday.", name: "Anonymous", when: "2 days ago", count: 14 },
-    { text: "Thanking God for a new job after eight months of looking. Prayer works!", name: "Grace", when: "3 days ago", count: 22, praise: true },
-    { text: "For peace in our home and wisdom raising two teenagers.", name: "Anonymous", when: "4 days ago", count: 9 },
-    { text: "My friend has just been diagnosed with cancer. Pray for strength and good news from her scans.", name: "D.", when: "5 days ago", count: 18 },
-    { text: "Exams start next month. Pray I can stay calm and remember what I've studied.", name: "Kofi", when: "1 week ago", count: 11 },
-    { text: "Praise God, my dad was baptised last Sabbath after years of prayer!", name: "Anonymous", when: "1 week ago", count: 31, praise: true }
-  ]
+  sabbathVerse: { text: "And God blessed the seventh day, and sanctified it: because that in it he had rested from all his work.", ref: "Genesis 2:3" }
 } satisfies {
   church: Record<string, unknown> & { address: string[] };
   weekly: WeeklyItem[];
@@ -190,7 +180,6 @@ export const SITE = {
   beliefs: Belief[];
   verses: Verse[];
   sabbathVerse: Verse;
-  prayerWall: PrayerNote[];
 };
 
 export const CHURCH = SITE.church;

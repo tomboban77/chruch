@@ -11,6 +11,7 @@ import { SITE } from "@/lib/content";
 import { useNow } from "@/lib/hooks";
 import { dayOfYear, fmtLDate, fmtTimeFull, sabbathState, sabbathTable } from "@/lib/time";
 import { useToast } from "./Toast";
+import { Example } from "./Example";
 
 /* ---------- Ministries ---------- */
 
@@ -44,7 +45,7 @@ function MinistryCard({ m }: { m: (typeof SITE.ministries)[number] }) {
       </div>
       <div className="m-body">
         <div className="m-ico" style={{ background: m.colour }}><Icon aria-hidden /></div>
-        <h3>{m.name}</h3>
+        <h3>{m.name}{m.sample && <Example />}</h3>
         <p>{m.desc}</p>
         <div className="m-meta">
           {m.audience.map((a) => <span key={a} className="chip ghost">{a}</span>)}

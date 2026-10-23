@@ -15,6 +15,8 @@
   --line-2: #d2ccbf;
 
   --blue: #1d5c96;
+  --brand-teal: #2b7a8b;
+  --brand-flame: #ec9a2e;
   --blue-600: #164c7e;
   --blue-deep: #0d2644;
   --blue-night: #081a31;
@@ -63,6 +65,8 @@
   --line-2: #2d4262;
 
   --blue: #6fa8de;
+  --brand-teal: #7cc4cf;
+  --brand-flame: #f5b155;
   --blue-600: #8dbbe6;
   --blue-deep: #0b1d36;
   --blue-night: #050f1f;
@@ -163,6 +167,7 @@ p { margin: 0 0 1em; }
 }
 .btn:hover { transform: translateY(-1px); color: var(--btn-fg); box-shadow: var(--shadow-sm); }
 .btn:active { transform: translateY(0); }
+.btn:disabled, .btn:disabled:hover { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
 .btn svg { width: 18px; height: 18px; flex: none; }
 .btn-primary { --btn-bg: var(--blue); --btn-fg: #fff; --btn-bd: var(--blue); }
 .btn-primary:hover { --btn-bg: var(--blue-600); --btn-bd: var(--blue-600); }
@@ -235,12 +240,15 @@ p { margin: 0 0 1em; }
 }
 .site-header.scrolled { border-bottom-color: var(--line); }
 .header-inner { display: flex; align-items: center; gap: 20px; height: var(--header-h); }
-.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); margin-right: auto; }
-.brand:hover { color: var(--ink); }
-.brand-mark { width: 40px; height: 40px; flex: none; border-radius: 12px; overflow: hidden; }
-.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-.brand-name { font-family: var(--font-display); font-weight: 700; font-size: 1.08rem; letter-spacing: -.01em; }
-.brand-sub { font-size: .72rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+.brand { display: flex; align-items: center; text-decoration: none; color: var(--brand-teal); margin-right: auto; }
+.brand:hover { color: var(--brand-teal); }
+.wordmark { height: 52px; width: auto; overflow: visible; display: block; }
+.logo-flame { fill: var(--brand-flame); }
+.logo-icon { width: 48px; height: 48px; color: var(--brand-teal); }
+.brand:hover .logo-flame { fill: var(--sun-600); }
+.wm-line { font-family: var(--font-body); font-size: 23px; font-weight: 500; letter-spacing: -.01em; fill: currentColor; }
+.wm-reg { font-size: 8px; font-weight: 500; }
+.wm-sub { font-family: var(--font-body); font-size: 9.5px; font-weight: 700; letter-spacing: .18em; fill: var(--muted); }
 
 .main-nav { display: flex; align-items: center; gap: 2px; }
 .main-nav a {
@@ -281,6 +289,7 @@ p { margin: 0 0 1em; }
 .mobile-menu .mm-contact { margin-top: auto; padding-top: 32px; color: var(--muted); font-size: .95rem; }
 .mobile-menu .mm-contact a { color: var(--ink); }
 
+@media (max-width: 480px) { .wordmark { height: 44px; } }
 @media (max-width: 1080px) {
   .main-nav, .header-actions .hide-md { display: none; }
   .menu-toggle { display: inline-grid; }
@@ -473,7 +482,8 @@ p { margin: 0 0 1em; }
 }
 
 /* ---------- Photos ---------- */
-.photo { position: relative; margin: 0; border-radius: var(--radius-lg); overflow: hidden; background: var(--sky); min-height: 260px; }
+/* No min-height here: combined with aspect-ratio it would force the width past the screen on phones. */
+.photo { position: relative; margin: 0; border-radius: var(--radius-lg); overflow: hidden; background: var(--sky); min-width: 0; }
 .photo img { object-fit: cover; transition: transform .8s var(--ease); }
 .photo:hover img { transform: scale(1.03); }
 .photo figcaption {
@@ -608,6 +618,12 @@ p { margin: 0 0 1em; }
 .cal-menu .menu a:hover, .cal-menu .menu button:hover { background: var(--bg-2); }
 .cal-menu .menu svg { width: 16px; height: 16px; color: var(--muted); }
 
+/* On phones the calendar menu opens as a bottom sheet, so it can never spill off-screen. */
+@media (max-width: 560px) {
+  .cal-menu .menu { position: fixed; left: 16px; right: 16px; top: auto; bottom: 100px; z-index: 120; padding: 8px; box-shadow: var(--shadow-lg); }
+  .cal-menu .menu a, .cal-menu .menu button { padding: 14px 12px; font-size: 1rem; }
+}
+
 /* Weekly rhythm */
 .rhythm { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
 .rhythm .day { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 12px; min-height: 150px; display: flex; flex-direction: column; gap: 8px; }
@@ -723,26 +739,6 @@ form.sent .form-success { display: block; animation: rise .5s var(--ease); }
 
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
-/* ---------- Prayer wall ---------- */
-.prayer-wall { columns: 3 280px; column-gap: 16px; }
-.prayer-note {
-  break-inside: avoid; margin-bottom: 16px; background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--radius); padding: 22px; position: relative;
-}
-.prayer-note:nth-child(3n+1) { background: var(--sky); border-color: transparent; }
-.prayer-note:nth-child(5n+2) { background: var(--sun-soft); border-color: transparent; }
-.prayer-note p { font-family: var(--font-serif); font-size: 1.12rem; line-height: 1.45; margin-bottom: 16px; }
-.prayer-note .pn-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: .85rem; color: var(--muted); }
-.pray-btn {
-  display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--line-2); background: var(--surface);
-  border-radius: 999px; padding: 6px 12px; font-weight: 600; font-size: .85rem; cursor: pointer; color: var(--ink);
-  transition: all .2s var(--ease);
-}
-.pray-btn svg { width: 15px; height: 15px; }
-.pray-btn:hover { border-color: var(--rose); color: var(--rose); }
-.pray-btn[aria-pressed="true"] { background: var(--rose); border-color: var(--rose); color: #fff; }
-.pray-btn[aria-pressed="true"] svg { fill: currentColor; }
-
 /* ---------- Beliefs ---------- */
 .beliefs-tools { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; margin-bottom: 28px; }
 .search { position: relative; flex: 1 1 260px; max-width: 360px; }
@@ -835,18 +831,20 @@ form.sent .form-success { display: block; animation: rise .5s var(--ease); }
 .note.sun svg { color: var(--sun-600); }
 
 /* ---------- Give ---------- */
-.give-option { display: flex; flex-direction: column; gap: 12px; }
-.give-option .amounts { display: flex; flex-wrap: wrap; gap: 8px; }
-.amount-btn { border: 1.5px solid var(--line-2); background: var(--surface-2); border-radius: 12px; padding: 10px 16px; font-weight: 700; cursor: pointer; min-width: 72px; transition: all .2s; }
-.amount-btn[aria-pressed="true"] { background: var(--blue); color: #fff; border-color: var(--blue); }
-.fund-split { display: flex; height: 14px; border-radius: 99px; overflow: hidden; margin: 14px 0 10px; }
-.fund-split span { display: block; height: 100%; transition: flex-grow .4s var(--ease); }
-.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: .88rem; color: var(--muted); }
-.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
-.copy-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
-.copy-row .v { font-weight: 600; font-variant-numeric: tabular-nums; }
-.copy-btn { border: 0; background: var(--bg-2); border-radius: 8px; padding: 6px 10px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; font-size: .82rem; font-weight: 600; }
-.copy-btn svg { width: 14px; height: 14px; }
+
+/* ---------- Placeholders ---------- */
+.example-chip {
+  display: inline-flex; align-items: center; vertical-align: middle; margin-left: 8px;
+  padding: 2px 8px; border-radius: 6px; border: 1px dashed var(--sun-600);
+  font-family: var(--font-body); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--sun-600); background: var(--sun-soft); white-space: nowrap; line-height: 1.5;
+}
+[data-theme="dark"] .example-chip { color: var(--sun); border-color: var(--sun); }
+.demo-notice {
+  display: flex; gap: 10px; align-items: flex-start; margin: 0 0 20px; padding: 12px 14px; border-radius: 12px;
+  background: var(--sun-soft); border: 1px dashed var(--sun-600); color: var(--ink-2); font-size: .9rem; line-height: 1.45;
+}
+.demo-notice svg { width: 18px; height: 18px; flex: none; margin-top: 1px; color: var(--sun-600); }
 
 /* ---------- Footer ---------- */
 .site-footer { background: var(--blue-night); color: var(--on-dark-2); padding: 80px 0 120px; position: relative; overflow: hidden; }
@@ -855,8 +853,8 @@ form.sent .form-success { display: block; animation: rise .5s var(--ease); }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.3fr; gap: 40px; }
 .footer-grid h4 { font-family: var(--font-body); font-size: .8rem; text-transform: uppercase; letter-spacing: .14em; color: #fff; margin-bottom: 18px; }
 .footer-grid ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.footer-brand .brand { color: #fff; margin-bottom: 18px; }
-.footer-brand .brand-sub { color: var(--on-dark-2); }
+.footer-brand .brand, .footer-brand .brand:hover { color: #8fd0da; margin-bottom: 18px; }
+.footer-brand .wm-sub { fill: var(--on-dark-2); }
 .footer-brand p { max-width: 34ch; font-size: .95rem; }
 .footer-sabbath { margin-top: 20px; padding: 16px; border-radius: 16px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .08); font-size: .92rem; }
 .footer-sabbath b { color: #fff; }

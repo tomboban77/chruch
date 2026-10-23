@@ -4,6 +4,7 @@ import { IMG, type ImgKey } from "@/lib/images";
 import type { ReactNode } from "react";
 import { Mail, MapPin, Navigation, Phone, Smartphone } from "lucide-react";
 import { CHURCH } from "@/lib/content";
+import { Example } from "./Example";
 
 export function Waves({ className = "waves" }: { className?: string }) {
   return (
@@ -93,13 +94,13 @@ export function Timeline() {
   );
 }
 
-export const FAQS: { q: string; a: ReactNode }[] = [
+export const FAQS: { q: string; a: ReactNode; example?: boolean }[] = [
   { q: "Why do you meet on Saturday?", a: "As Seventh-day Adventists, we keep the Bible's seventh-day Sabbath, from sunset on Friday to sunset on Saturday. It's a day of rest, worship and time with family and friends, a weekly gift we love to share." },
   { q: "What should I wear?", a: "Whatever you feel comfortable in. Some people dress up for church and some don't. You'll be welcome either way." },
-  { q: "Is there something for my children?", a: "Yes. During Sabbath School there are classes for babies, children and teens, led by safeguarding-trained volunteers. Children are also very welcome to stay with you in the main service." },
-  { q: "Where do I park?", a: "There is on-street parking on Copthorne Gardens and the surrounding roads. Please be considerate of our neighbours' driveways. If you need a space close to the door, let us know when you plan your visit." },
+  { q: "Is there something for my children?", a: "Yes. During Sabbath School there are classes for children and young people, and children are very welcome to stay with you in the main service.", example: true },
+  { q: "Where do I park?", a: "There is on-street parking on Copthorne Gardens and the surrounding roads. Please be considerate of our neighbours' driveways. If you need a space close to the door, let us know when you plan your visit.", example: true },
   { q: "Will I be asked to do anything?", a: "No. You won't be asked to stand up, speak or give money. Just come, join in as much as you like, and enjoy." },
-  { q: "Is the building accessible?", a: "There's step-free access into the main hall and an accessible toilet. Tell us what would help and we'll make sure someone is ready to assist. (Details to confirm.)" },
+  { q: "Is the building accessible?", a: "There's step-free access into the main hall and an accessible toilet. Tell us what would help and we'll make sure someone is ready to assist.", example: true },
   { q: "We used to know you as Fartown church. Is this the same place?", a: "It's the same church family. Fartown SDA Church is now Bradley Seventh-day Adventist Church, meeting at 5 Copthorne Gardens, Bradley." }
 ];
 
@@ -108,7 +109,7 @@ export function Faq({ items = FAQS, openFirst = true }: { items?: typeof FAQS; o
     <div className="accordion">
       {items.map((f, i) => (
         <details key={f.q} open={openFirst && i === 0}>
-          <summary>{f.q}</summary>
+          <summary>{f.q}{f.example && <Example />}</summary>
           <div className="acc-body"><p>{f.a}</p></div>
         </details>
       ))}

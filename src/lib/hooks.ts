@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * The current time, refreshed on an interval. Returns null during server
@@ -18,26 +18,4 @@ export function useNow(intervalMs = 30_000): Date | null {
     return () => clearInterval(id);
   }, [intervalMs]);
   return now;
-}
-
-/** JSON state persisted to localStorage, tolerant of private mode and blocked storage. */
-export function useStoredState<T>(key: string, initial: T) {
-  const [value, setValue] = useState<T>(initial);
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(key);
-      if (raw) setValue(JSON.parse(raw));
-    } catch {}
-  }, [key]);
-  const update = useCallback(
-    (next: T | ((prev: T) => T)) => {
-      setValue((prev) => {
-        const v = typeof next === "function" ? (next as (p: T) => T)(prev) : next;
-        try { localStorage.setItem(key, JSON.stringify(v)); } catch {}
-        return v;
-      });
-    },
-    [key]
-  );
-  return [value, update] as const;
 }

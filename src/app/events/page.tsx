@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero, SectionHead } from "@/components/Blocks";
 import { EventList, WeeklyRhythm } from "@/components/Events";
+import { Example } from "@/components/Example";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -21,14 +22,14 @@ export default function EventsPage() {
 
       <section className="section tight">
         <div className="container">
-          <SectionHead eyebrow="Every week" title="Our weekly rhythm" />
+          <SectionHead eyebrow="Every week" title={<>Our weekly rhythm <Example label="Example schedule" /></>} />
           <WeeklyRhythm />
         </div>
       </section>
 
       <section className="section">
         <div className="container narrow" style={{ maxWidth: 980 }}>
-          <SectionHead eyebrow="Coming up" title="Special events" text="Events marked Sample are placeholders for the church team to replace." />
+          <SectionHead eyebrow="Coming up" title="Special events" text="Events marked Example are placeholders for the church team to replace." />
           <EventList />
         </div>
       </section>

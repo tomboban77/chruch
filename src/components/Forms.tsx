@@ -7,10 +7,11 @@
 
 import { useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, Copy, Heart, Navigation, Send } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Navigation, Send } from "lucide-react";
 import { AddToCalendar } from "./AddToCalendar";
-import { CHURCH, SITE, type PrayerNote } from "@/lib/content";
-import { useNow, useStoredState } from "@/lib/hooks";
+import { CHURCH } from "@/lib/content";
+import { useNow } from "@/lib/hooks";
+import { DemoNotice, Example } from "./Example";
 import { addDays, fmtLDate, isoLocal, nextService } from "@/lib/time";
 import { useToast } from "./Toast";
 
@@ -28,106 +29,63 @@ function Success({ title, children }: { title: string; children: ReactNode }) {
 
 /* ---------- Prayer ---------- */
 
-type WallNote = PrayerNote & { id: string };
-
 export function PrayerHub() {
   const toast = useToast();
   const [sent, setSent] = useState(false);
-  const [mine, setMine] = useStoredState<WallNote[]>("bsda-wall", []);
-  const [prayed, setPrayed] = useStoredState<string[]>("bsda-prayed", []);
   const [errors, setErrors] = useState(false);
-
-  const wall: WallNote[] = [...mine, ...SITE.prayerWall.map((p, i) => ({ ...p, id: `s${i}` }))];
 
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const f = new FormData(e.currentTarget);
-    const text = String(f.get("request") ?? "").trim();
+    const text = String(new FormData(e.currentTarget).get("request") ?? "").trim();
     if (!text) return setErrors(true);
-    if (f.get("wall")) {
-      const name = String(f.get("name") ?? "").trim();
-      setMine((m) => [{ id: `u${Date.now()}`, text, name: name ? name.split(" ")[0] : "Anonymous", when: "Just now", count: 0 }, ...m]);
-    }
     setSent(true);
-    toast("Prayer request received");
-  };
-
-  const pray = (id: string) => {
-    const on = !prayed.includes(id);
-    setPrayed((p) => (on ? [...p, id] : p.filter((x) => x !== id)));
-    if (on) toast("Thank you for praying");
+    toast("Demo only: this request was not sent");
   };
 
   return (
-    <>
-      <div className="split top" id="request">
-        <div className="reveal">
-          <span className="eyebrow">Prayer requests</span>
-          <h2>How can we pray for you?</h2>
-          <p className="lead">Whatever you&apos;re facing, you don&apos;t have to face it alone. Share as much or as little as you like.</p>
-          <ul className="kv light">
-            <li><span>Who reads it</span><span>Our prayer team only</span></li>
-            <li><span>Prayer meeting</span><span>Wednesdays, 7:00pm</span></li>
-            <li><span>Urgent need?</span><span><a href={`tel:${CHURCH.mobile.replace(/\s/g, "")}`}>{CHURCH.mobile}</a></span></li>
-          </ul>
-          <p className="small muted">If you are in crisis or feel unsafe, please call 999 or Samaritans on 116 123 (free, 24 hours).</p>
-        </div>
-        <div className="form-card reveal d1">
-          {sent ? (
-            <Success title="We're praying with you">
-              <p className="muted">Our prayer team will lift this up this week. If you asked us to get in touch, someone will contact you soon.</p>
-              <button className="btn btn-ghost" type="button" onClick={() => setSent(false)}>Send another request</button>
-            </Success>
-          ) : (
-            <form onSubmit={submit} noValidate>
-              <div className="field">
-                <label htmlFor="p-name">Your name <span className="opt">(optional)</span></label>
-                <input id="p-name" name="name" className="input" autoComplete="given-name" />
-              </div>
-              <div className="field">
-                <label htmlFor="p-req">Your prayer request</label>
-                <textarea id="p-req" name="request" className="textarea" aria-invalid={errors} onChange={() => setErrors(false)} placeholder="What would you like us to pray about?" />
-                {errors && <span className="hint" style={{ color: "var(--rose)" }}>Please write a short request so we know how to pray.</span>}
-              </div>
-              <div className="field">
-                <label htmlFor="p-contact">Email or phone <span className="opt">(only if you&apos;d like a reply)</span></label>
-                <input id="p-contact" name="contact" className="input" />
-              </div>
-              <label className="check"><input type="checkbox" name="callback" /> I&apos;d like someone from the church to contact me</label>
-              <label className="check"><input type="checkbox" name="wall" /> Share it on the prayer wall without my surname, so others can pray too</label>
-              <button className="btn btn-primary btn-block" type="submit"><Send aria-hidden /> Send prayer request</button>
-            </form>
-          )}
-        </div>
+    <div className="split top" id="request">
+      <div className="reveal">
+        <span className="eyebrow">Prayer requests</span>
+        <h2>How can we pray for you?</h2>
+        <p className="lead">Whatever you&apos;re facing, you don&apos;t have to face it alone. Share as much or as little as you like.</p>
+        <ul className="kv light">
+          <li><span>Who reads it</span><span>Our prayer team only</span></li>
+          <li><span>Prayer meeting <Example /></span><span>Wednesdays, 7:00pm</span></li>
+          <li><span>Urgent need?</span><span><a href={`tel:${CHURCH.mobile.replace(/\s/g, "")}`}>{CHURCH.mobile}</a></span></li>
+        </ul>
+        <p className="small muted">If you are in crisis or feel unsafe, please call 999 or Samaritans on 116 123 (free, 24 hours).</p>
       </div>
-
-      <div className="mt-5" id="wall">
-        <div className="section-head">
-          <div>
-            <span className="eyebrow">Prayer wall</span>
-            <h2>Pray for one another</h2>
-            <p>Tap &ldquo;I prayed&rdquo; to let someone know they&apos;re not alone. Praise reports are marked in green.</p>
-          </div>
-        </div>
-        <div className="prayer-wall">
-          {wall.map((p) => {
-            const on = prayed.includes(p.id);
-            return (
-              <article key={p.id} className="prayer-note">
-                {p.praise && <span className="chip green mb-2" style={{ marginBottom: 10 }}>Praise report</span>}
-                <p>{p.text}</p>
-                <div className="pn-foot">
-                  <span>{p.name} · {p.when}</span>
-                  <button type="button" className="pray-btn" aria-pressed={on} onClick={() => pray(p.id)}>
-                    <Heart aria-hidden /> {on ? "Prayed" : "I prayed"} · {p.count + (on ? 1 : 0)}
-                  </button>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+      <div className="form-card reveal d1">
+        {sent ? (
+          <Success title="Thank you for sharing">
+            <p className="muted">
+              This is a demo, so your request has <strong>not</strong> been sent to anyone. When the site goes live, requests will
+              go privately to the church&apos;s prayer team.
+            </p>
+            <button className="btn btn-ghost" type="button" onClick={() => setSent(false)}>Back to the form</button>
+          </Success>
+        ) : (
+          <form onSubmit={submit} noValidate>
+            <DemoNotice>Demo form: nothing you type here is sent or stored.</DemoNotice>
+            <div className="field">
+              <label htmlFor="p-name">Your name <span className="opt">(optional)</span></label>
+              <input id="p-name" name="name" className="input" autoComplete="given-name" />
+            </div>
+            <div className="field">
+              <label htmlFor="p-req">Your prayer request</label>
+              <textarea id="p-req" name="request" className="textarea" aria-invalid={errors} onChange={() => setErrors(false)} placeholder="What would you like us to pray about?" />
+              {errors && <span className="hint" style={{ color: "var(--rose)" }}>Please write a short request so we know how to pray.</span>}
+            </div>
+            <div className="field">
+              <label htmlFor="p-contact">Email or phone <span className="opt">(only if you&apos;d like a reply)</span></label>
+              <input id="p-contact" name="contact" className="input" />
+            </div>
+            <label className="check"><input type="checkbox" name="callback" /> I&apos;d like someone from the church to contact me</label>
+            <button className="btn btn-primary btn-block" type="submit"><Send aria-hidden /> Send prayer request</button>
+          </form>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -140,7 +98,7 @@ export function VisitWizard() {
   const toast = useToast();
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
-  const [data, setData] = useState({ date: "", adults: "1", kids: [] as string[], needs: [] as string[], lunch: "yes", name: "", contact: "", note: "" });
+  const [data, setData] = useState({ date: "", adults: "1", kids: [] as string[], needs: [] as string[], name: "", contact: "", note: "" });
 
   const saturdays = now
     ? Array.from({ length: 4 }, (_, i) => addDays(nextService(now).day, i * 7))
@@ -155,7 +113,7 @@ export function VisitWizard() {
     if (step < STEPS.length - 1) setStep(step + 1);
     else {
       setDone(true);
-      toast("Thanks, we can't wait to meet you!");
+      toast("Demo only: your details were not sent");
     }
   };
 
@@ -166,18 +124,17 @@ export function VisitWizard() {
     return (
       <div className="form-card">
         <Success title={`See you ${prettyDate}, ${data.name.split(" ")[0]}!`}>
-          <p className="muted">Someone from our welcome team will be in touch before Saturday. Here&apos;s your plan:</p>
+          <p className="muted">Here&apos;s your plan. This is a demo, so your details have <strong>not</strong> been sent. On the live site, the welcome team would get in touch before Saturday.</p>
           <ul className="summary-list">
-            <li><span>Arrive</span><span>9:45am, {prettyDate}</span></li>
+            <li><span>Service</span><span>10:00am to about 1:00pm, {prettyDate}</span></li>
             <li><span>Where</span><span>{CHURCH.address.join(", ")}</span></li>
             <li><span>Group</span><span>{data.adults} adult{data.adults === "1" ? "" : "s"}{data.kids.length ? `, children: ${data.kids.join(", ")}` : ""}</span></li>
-            {data.needs.length > 0 && <li><span>We&apos;ll have ready</span><span>{data.needs.join(", ")}</span></li>}
-            <li><span>Lunch</span><span>{data.lunch === "yes" ? "Staying, a place is saved" : "Maybe next time"}</span></li>
+            {data.needs.length > 0 && <li><span>You asked for</span><span>{data.needs.join(", ")}</span></li>}
           </ul>
           <div className="btn-row" style={{ justifyContent: "center" }}>
             <AddToCalendar
               className="btn btn-primary"
-              item={{ id: "my-visit", title: "Visit Bradley Adventist Church", startLocal: isoLocal(chosen, "09:45"), endLocal: isoLocal(chosen, "13:00"), desc: "Arrive 9:45am. Sabbath School 10:00, worship 11:15, lunch after.", location: "In person" }}
+              item={{ id: "my-visit", title: "Visit Bradley Adventist Church", startLocal: isoLocal(chosen, "10:00"), endLocal: isoLocal(chosen, "13:00"), desc: "Family worship from 10:00am to about 1:00pm.", location: "In person" }}
             />
             <a className="btn btn-ghost" href={CHURCH.directions} target="_blank" rel="noopener"><Navigation aria-hidden /> Directions</a>
           </div>
@@ -188,6 +145,7 @@ export function VisitWizard() {
 
   return (
     <div className="form-card" id="plan">
+      <DemoNotice>Demo form: nothing you enter here is sent or stored.</DemoNotice>
       <div className="stepper" aria-hidden="true">
         {STEPS.map((s, i) => <span key={s} className={`s${i <= step ? " done" : ""}`} />)}
       </div>
@@ -237,24 +195,13 @@ export function VisitWizard() {
       {step === 2 && (
         <div>
           <h3>Anything that would help?</h3>
-          <div className="choice-grid mb-3">
+          <div className="choice-grid">
             {["Someone to meet me at the door", "A parking space near the door", "Step-free access", "Large-print hymn book", "Hearing loop", "A quiet space for a baby"].map((n) => (
               <label key={n} className="choice">
                 <input type="checkbox" checked={data.needs.includes(n)} onChange={() => toggle("needs", n)} />
                 <span>{n}</span>
               </label>
             ))}
-          </div>
-          <div className="field">
-            <span className="label">Staying for lunch?</span>
-            <div className="choice-grid">
-              {[["yes", "Yes please"], ["no", "Not this time"]].map(([v, l]) => (
-                <label key={v} className="choice">
-                  <input type="radio" name="lunch" checked={data.lunch === v} onChange={() => set("lunch", v)} />
-                  <span>{l}</span>
-                </label>
-              ))}
-            </div>
           </div>
         </div>
       )}
@@ -290,59 +237,14 @@ export function VisitWizard() {
   );
 }
 
-/* ---------- Give ---------- */
-
-export function GiftAidCalculator() {
-  const [amount, setAmount] = useState(20);
-  const presets = [10, 20, 50, 100];
-  const extra = amount * 0.25;
-  return (
-    <div className="give-option">
-      <div className="amounts" role="group" aria-label="Choose an amount">
-        {presets.map((p) => (
-          <button key={p} type="button" className="amount-btn" aria-pressed={amount === p} onClick={() => setAmount(p)}>£{p}</button>
-        ))}
-      </div>
-      <div className="field mb-0">
-        <label htmlFor="ga-amount">Or enter an amount</label>
-        <input id="ga-amount" className="input" type="number" min={1} inputMode="decimal" value={amount || ""} onChange={(e) => setAmount(Math.max(0, Number(e.target.value)))} />
-      </div>
-      <div className="fund-split" aria-hidden="true">
-        <span style={{ flexGrow: amount || 1, background: "var(--blue)" }} />
-        <span style={{ flexGrow: extra || 0.25, background: "var(--sun)" }} />
-      </div>
-      <div className="legend">
-        <span><i style={{ background: "var(--blue)" }} />Your gift £{amount.toFixed(2)}</span>
-        <span><i style={{ background: "var(--sun)" }} />Gift Aid +£{extra.toFixed(2)}</span>
-      </div>
-      <p className="serif" style={{ fontSize: "1.6rem", fontWeight: 600, margin: "6px 0 0" }}>
-        The church receives £{(amount + extra).toFixed(2)}
-      </p>
-      <p className="small muted mb-0">If you pay UK income tax, Gift Aid lets the church claim 25p for every £1 you give, at no cost to you.</p>
-    </div>
-  );
-}
-
-export function CopyRow({ label, value }: { label: string; value: string }) {
-  const toast = useToast();
-  return (
-    <div className="copy-row">
-      <span><span className="small muted" style={{ display: "block" }}>{label}</span><span className="v">{value}</span></span>
-      <button type="button" className="copy-btn" onClick={() => navigator.clipboard?.writeText(value).then(() => toast(`${label} copied`))}>
-        <Copy aria-hidden /> Copy
-      </button>
-    </div>
-  );
-}
-
 export function ContactForm() {
   const [sent, setSent] = useState(false);
   const toast = useToast();
   if (sent)
     return (
       <div className="form-card">
-        <Success title="Message sent">
-          <p className="muted">Thanks for getting in touch. We usually reply within a couple of days.</p>
+        <Success title="Thanks for getting in touch">
+          <p className="muted">This is a demo, so your message has <strong>not</strong> been sent. Please email or phone the church directly for now.</p>
           <Link className="btn btn-ghost" href="/">Back to home</Link>
         </Success>
       </div>
@@ -353,9 +255,10 @@ export function ContactForm() {
       onSubmit={(e) => {
         e.preventDefault();
         setSent(true);
-        toast("Message sent");
+        toast("Demo only: your message was not sent");
       }}
     >
+      <DemoNotice>Demo form: messages are not sent yet. For now, call {CHURCH.phone} or email {CHURCH.email}.</DemoNotice>
       <div className="field-row">
         <div className="field"><label htmlFor="c-name">Name</label><input id="c-name" className="input" required autoComplete="name" /></div>
         <div className="field"><label htmlFor="c-email">Email</label><input id="c-email" className="input" type="email" required autoComplete="email" /></div>

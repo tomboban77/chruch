@@ -3,6 +3,7 @@ import { Accessibility, Baby, Car, Coffee, MessageCircle, Shirt, Utensils } from
 import { Faq, FindUs, PageHero, SectionHead, Timeline } from "@/components/Blocks";
 import { SabbathTimes } from "@/components/Explore";
 import { ContactForm, VisitWizard } from "@/components/Forms";
+import { Example } from "@/components/Example";
 
 export const metadata: Metadata = {
   title: "Plan your visit",
@@ -11,11 +12,11 @@ export const metadata: Metadata = {
 
 const GOOD_TO_KNOW = [
   { icon: Shirt, title: "Come as you are", text: "Suits, jeans, your favourite jumper. There's no dress code, just a warm welcome." },
-  { icon: Baby, title: "Children love it here", text: "Age-group classes during Sabbath School and a space for parents with babies." },
-  { icon: Car, title: "Easy parking", text: "Free on-street parking around Copthorne Gardens. Ask for a space by the door if you need one." },
-  { icon: Accessibility, title: "Accessible", text: "Step-free entrance and an accessible toilet. Tell us what would help. (To confirm.)" },
+  { icon: Baby, title: "Children welcome", text: "Classes for children during Sabbath School, and little ones are always welcome in the service.", example: true },
+  { icon: Car, title: "Parking", text: "On-street parking around Copthorne Gardens. Ask for a space by the door if you need one.", example: true },
+  { icon: Accessibility, title: "Accessibility", text: "Tell us what would help and we'll do our best to make your visit easy.", example: true },
   { icon: Coffee, title: "No pressure", text: "You won't be singled out or asked to give. Sit back, join in, or just listen." },
-  { icon: Utensils, title: "Lunch is on us", text: "Stay after the service for a home-cooked fellowship lunch. Guests eat first!" }
+  { icon: Utensils, title: "Fellowship lunch", text: "Stay after the service to share a meal and get to know people.", example: true }
 ];
 
 export default function VisitPage() {
@@ -37,7 +38,7 @@ export default function VisitPage() {
 
       <section className="section">
         <div className="container">
-          <SectionHead eyebrow="Saturday morning" title="What to expect" text="A typical Saturday runs from 10am to about 1pm. Come for all of it, or just part." />
+          <SectionHead eyebrow="Saturday morning" title={<>What to expect <Example label="Example schedule" /></>} text="Our Saturday service runs from 10am to about 1pm. The breakdown below is an example for the church team to confirm." />
           <Timeline />
         </div>
       </section>
@@ -46,10 +47,10 @@ export default function VisitPage() {
         <div className="container">
           <SectionHead eyebrow="Good to know" title="The little things" />
           <div className="grid grid-3">
-            {GOOD_TO_KNOW.map(({ icon: Icon, title, text }, i) => (
+            {GOOD_TO_KNOW.map(({ icon: Icon, title, text, example }, i) => (
               <div key={title} className={`card reveal d${i % 3}`}>
                 <div className="card-ico"><Icon aria-hidden /></div>
-                <h3>{title}</h3>
+                <h3>{title}{example && <Example />}</h3>
                 <p className="muted">{text}</p>
               </div>
             ))}
@@ -62,7 +63,7 @@ export default function VisitPage() {
           <div className="reveal">
             <span className="eyebrow">Plan your visit</span>
             <h2>Let us know you&apos;re coming</h2>
-            <p className="lead">It takes a minute. We&apos;ll have someone waiting to welcome you, a seat saved, and the children&apos;s team ready.</p>
+            <p className="lead">It takes a minute, and it means the welcome team will know to look out for you.</p>
             <div className="note mt-3">
               <MessageCircle aria-hidden />
               <span>Prefer to just turn up? That&apos;s completely fine too. Look for the welcome team at the door.</span>

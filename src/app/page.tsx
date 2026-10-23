@@ -7,8 +7,9 @@ import { CtaBand, Faq, FAQS, FindUs, SectionHead, Timeline } from "@/components/
 import { EventCards } from "@/components/Events";
 import { MinistryScroller, VerseBanner } from "@/components/Explore";
 import { VideoPlayer } from "@/components/Video";
+import { Example } from "@/components/Example";
 
-const MARQUEE = ["Come as you are", "Saturdays at ten", "Rest for the weary", "Families welcome", "Stay for lunch", "Bradley, Huddersfield"];
+const MARQUEE = ["Come as you are", "Saturdays at ten", "Rest for the weary", "Families welcome", "Everyone welcome", "Bradley, Huddersfield"];
 
 export default function Home() {
   return (
@@ -25,7 +26,7 @@ export default function Home() {
               <Image className="tile-bg" src={IMG.welcomeGreeting} alt="" fill placeholder="blur" sizes="(max-width: 960px) 100vw, 50vw" />
               <div>
                 <h3>New here? We saved you a seat.</h3>
-                <p>Tell us you&apos;re coming and someone will meet you at the door, show you around and introduce the children&apos;s team.</p>
+                <p>Tell us you&apos;re coming and someone will be ready to meet you at the door and show you around.</p>
               </div>
             </Link>
             <Link href="/watch" className="tile t-watch reveal d1">
@@ -60,8 +61,8 @@ export default function Home() {
         <div className="container">
           <SectionHead
             eyebrow="Your first visit"
-            title="Your first Saturday with us"
-            text="Visiting a new church can feel like a lot. Here's what a typical Saturday morning looks like, so you know what to expect before you arrive."
+            title={<>Your first Saturday with us <Example label="Example schedule" /></>}
+            text="Visiting a new church can feel like a lot. Here's what a typical Saturday morning could look like, so you know what to expect before you arrive. Our service runs from 10am to about 1pm."
             action={<Link href="/visit" className="link-arrow">Everything about visiting <ArrowRight aria-hidden /></Link>}
           />
           <Timeline />
@@ -71,8 +72,8 @@ export default function Home() {
               <figcaption>A warm welcome, every week</figcaption>
             </figure>
             <figure className="photo reveal d1">
-              <Image src={IMG.fellowshipLunch} alt="People serving themselves at a shared lunch" fill placeholder="blur" sizes="(max-width: 760px) 100vw, 40vw" />
-              <figcaption>Fellowship lunch after the service</figcaption>
+              <Image src={IMG.fellowshipLunch} alt="People sharing food together at a church gathering" fill placeholder="blur" sizes="(max-width: 760px) 100vw, 40vw" />
+              <figcaption>Time together after worship</figcaption>
             </figure>
           </div>
         </div>
@@ -86,9 +87,9 @@ export default function Home() {
             <h2>Worship with us from home</h2>
             <p className="lead">Can&apos;t make it in person? Every Saturday service is streamed online, so you can join from wherever you are.</p>
             <ul className="kv">
-              <li><span>Live stream</span><span>Saturdays from 10:00am</span></li>
+              <li><span>Live stream <Example /></span><span>Saturdays from 10:00am</span></li>
               <li><span>Past services</span><span>On our YouTube channel</span></li>
-              <li><span>Midweek prayer</span><span>Wednesdays, 7:00pm</span></li>
+              <li><span>Midweek prayer <Example /></span><span>Wednesdays, 7:00pm</span></li>
             </ul>
             <div className="btn-row">
               <Link href="/watch" className="btn btn-sun">Sermon library</Link>
@@ -156,7 +157,6 @@ export default function Home() {
             text="Whatever you're facing, you don't have to face it alone. Our prayer team keeps every request private."
           >
             <Link href="/prayer" className="btn btn-light">Send a prayer request</Link>
-            <Link href="/prayer#wall" className="btn btn-outline-light">Prayer wall</Link>
           </CtaBand>
         </div>
       </section>

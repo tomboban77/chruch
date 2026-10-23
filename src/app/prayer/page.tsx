@@ -5,7 +5,7 @@ import { PrayerHub } from "@/components/Forms";
 
 export const metadata: Metadata = {
   title: "Prayer",
-  description: "Send a private prayer request to Bradley Seventh-day Adventist Church, or pray for others on our prayer wall."
+  description: "Send a private prayer request to Bradley Seventh-day Adventist Church."
 };
 
 export default function PrayerPage() {
@@ -17,11 +17,10 @@ export default function PrayerPage() {
         imageAlt="A woman praying quietly with a Bible on her lap"
         eyebrow="Prayer"
         title={<>You don&apos;t have to carry it <span className="accent">alone</span></>}
-        lead="Share a request in confidence, join us for midweek prayer, or pray for someone else on the prayer wall."
+        lead="Share a request in confidence and our prayer team will pray for you. Whatever you're facing, you're not on your own."
       >
         <div className="btn-row reveal d2">
           <a href="#request" className="btn btn-primary">Send a request</a>
-          <a href="#wall" className="btn btn-ghost">Visit the prayer wall</a>
         </div>
       </PageHero>
       <section className="section">

@@ -34,7 +34,7 @@ function Newsletter() {
       <h4>Friday reminder</h4>
       <p className="small">A short email each Friday: Sabbath times, the weekend&apos;s programme and the livestream link.</p>
       {sent ? (
-        <p className="small" style={{ color: "#fff" }}>Thanks! You&apos;re on the list. (Demo: no email is sent yet.)</p>
+        <p className="small" style={{ color: "#fff" }}>Demo only: you have not been signed up. Email sign-up will work once the site is live.</p>
       ) : (
         <form onSubmit={submit}>
           <label htmlFor="news-email" className="sr-only">Email address</label>

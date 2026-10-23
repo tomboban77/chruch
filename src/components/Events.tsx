@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Clock, MapPin } from "lucide-react";
 import { AddToCalendar } from "./AddToCalendar";
+import { Example } from "./Example";
 import { SITE, type Category } from "@/lib/content";
 import { useNow } from "@/lib/hooks";
 import { fmtDay, fmtTime, londonParts, nextWeekly, parseLocal, upcomingEvents, type EventInstance } from "@/lib/time";
@@ -38,6 +39,7 @@ export function EventCards({ limit = 3 }: { limit?: number }) {
             <DateBlock e={e} />
             <div>
               <CatChip cat={e.category} />
+              {e.sample && <Example />}
               <h3 style={{ marginTop: 8 }}>{e.title}</h3>
             </div>
           </div>
@@ -85,7 +87,7 @@ export function EventList() {
                 <DateBlock e={e} />
                 <div>
                   <CatChip cat={e.category} />
-                  {e.sample && <span className="chip ghost" style={{ marginLeft: 6 }}>Sample</span>}
+                  {e.sample && <Example />}
                   <h3>{e.title}</h3>
                   <div className="meta">
                     <span><Clock aria-hidden />{fmtDay(e.startAt, { weekday: "long" })}, {timeRange(e)}</span>

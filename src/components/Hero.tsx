@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Baby, Clock, MonitorPlay, Navigation, Sunset, Utensils } from "lucide-react";
+import { ArrowUpRight, Baby, Clock, MonitorPlay, Navigation, Sunset } from "lucide-react";
 import { AddToCalendar } from "./AddToCalendar";
 import { CHURCH } from "@/lib/content";
 import { IMG } from "@/lib/images";
@@ -55,9 +55,9 @@ function ServiceCard({ now }: { now: Date | null }) {
             item={{
               id: "visit",
               title: "Sabbath service at Bradley Adventist Church",
-              startLocal: isoLocal(svc.day, "09:45"),
+              startLocal: isoLocal(svc.day, "10:00"),
               endLocal: isoLocal(svc.day, "13:00"),
-              desc: "Sabbath School 10:00, family worship 11:15, fellowship lunch afterwards. Someone will meet you at the door.",
+              desc: "Family worship from 10:00am to about 1:00pm.",
               location: "In person"
             }}
           />
@@ -83,17 +83,17 @@ export function Hero() {
             at <em>ten.</em>
           </h1>
           <p className="lead reveal d1">
-            We&apos;re a family church in Bradley, Huddersfield. Come as you are and worship with us from 10am to about 1pm,
-            then stay for lunch. There&apos;s always room at the table.
+            We&apos;re a family-friendly church in Bradley, Huddersfield, with services and activities for everyone. Come as you
+            are and worship with us, from 10am to about 1pm.
           </p>
           <div className="btn-row reveal d1">
             <Link href="/visit#plan" className="btn btn-primary">Plan your visit</Link>
             <Link href="/watch" className="btn btn-ghost">Watch online</Link>
           </div>
           <div className="hero-proof reveal d2">
-            <span><Baby aria-hidden /> Classes for every age</span>
-            <span><MonitorPlay aria-hidden /> Live online every week</span>
-            <span><Utensils aria-hidden /> Fellowship lunch after</span>
+            <span><Clock aria-hidden /> Saturdays, 10am to 1pm</span>
+            <span><Baby aria-hidden /> Family-friendly</span>
+            <span><MonitorPlay aria-hidden /> Watch services online</span>
           </div>
         </div>
 

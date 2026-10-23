@@ -1,19 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { Play, Search } from "lucide-react";
 import { CHURCH, SITE } from "@/lib/content";
-import { fmtDay, parseLocal } from "@/lib/time";
+import { DemoNotice, Example } from "./Example";
 
 /**
  * Click-to-load YouTube player. Nothing loads from YouTube until the visitor
  * presses play, which keeps pages fast and avoids cookies.
  */
-export function VideoPlayer({ id = CHURCH.youtubeLatest, caption = "Last Saturday's service", autoplayKey }: { id?: string; caption?: string; autoplayKey?: number }) {
+export function VideoPlayer({ id = CHURCH.youtubeLatest, caption = "Latest service" }: { id?: string; caption?: string }) {
   const [playing, setPlaying] = useState(false);
-  useEffect(() => {
-    if (autoplayKey) setPlaying(true);
-  }, [autoplayKey]);
 
   return (
     <div className="video">
@@ -38,11 +35,13 @@ export function VideoPlayer({ id = CHURCH.youtubeLatest, caption = "Last Saturda
   );
 }
 
+/**
+ * Layout preview for a future sermon archive. The entries in content.ts are
+ * made up, so cards are clearly labelled and deliberately don't play anything.
+ */
 export function SermonLibrary() {
   const [series, setSeries] = useState("All");
   const [q, setQ] = useState("");
-  const [current, setCurrent] = useState({ title: "Last Saturday's service", key: 0 });
-  const playerRef = useRef<HTMLDivElement>(null);
 
   const allSeries = useMemo(() => ["All", ...new Set(SITE.sermons.map((s) => s.series))], []);
   const list = SITE.sermons.filter((s) => {
@@ -51,17 +50,12 @@ export function SermonLibrary() {
     return hay.includes(q.trim().toLowerCase());
   });
 
-  const play = (title: string) => {
-    setCurrent((c) => ({ title, key: c.key + 1 }));
-    playerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
-
   return (
     <>
-      <div ref={playerRef} className="mb-4">
-        <VideoPlayer key={current.key} caption={current.title} autoplayKey={current.key} />
-        <p className="small muted mt-1">Sample library: every sermon currently plays the church&apos;s latest YouTube service.</p>
-      </div>
+      <DemoNotice>
+        Mock-up: these sermons are made-up examples to show how a searchable archive could look. They don&apos;t link to real
+        recordings. For real services, use the player above or the church&apos;s YouTube channel.
+      </DemoNotice>
       <div className="beliefs-tools">
         <div className="filter-bar" role="group" aria-label="Filter by series">
           {allSeries.map((s) => (
@@ -84,12 +78,9 @@ export function SermonLibrary() {
               <span className="dur">{s.length}</span>
             </div>
             <div className="body">
-              <span className="meta">{fmtDay(parseLocal(s.date), { day: "numeric", month: "long", year: "numeric" })} · {s.text}</span>
-              <h3>{s.title}</h3>
+              <span className="meta">{s.text}</span>
+              <h3>{s.title} <Example /></h3>
               <span className="meta">{s.speaker}</span>
-              <button type="button" className="btn btn-ghost btn-sm play-link" onClick={() => play(s.title)}>
-                <Play aria-hidden /> Watch
-              </button>
             </div>
           </article>
         ))}
